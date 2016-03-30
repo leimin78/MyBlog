@@ -1,19 +1,13 @@
-Hello,{{ name|capitalize }}!
-<p>A value from a dictionary: {{ mydict['key'] }}.</p>
-<p>A value from a list: {{ mylist[3] }}.</p>
-<p>A value from a list, with a variable index: {{ mylist.index('myintvar') }}.</p>
-<p>
-{% if name=='leimin' %}
-Hello,{{ name }}
+{% extends "base.html" %}
+{% block title %}User Page{% endblock %}
+{% block page_content %}
+<div class="page-header">
+<h1>
+{% if name %}
+Hello,{{name}}
 {% else %}
-Hello,Strange
+Hello,World
 {% endif %}
-</p>
-
-<ul>
-{% for comment in comments %}
-<li>{{ comment }}</li>
-{% endfor %}
-</ul>
-
-<span>span test</span>
+</h1>
+</div>
+{% endblock %}
