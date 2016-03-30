@@ -1,0 +1,19 @@
+Hello,{{ name|capitalize }}!
+<p>A value from a dictionary: {{ mydict['key'] }}.</p>
+<p>A value from a list: {{ mylist[3] }}.</p>
+<p>A value from a list, with a variable index: {{ mylist.index('myintvar') }}.</p>
+<p>
+{% if name=='leimin' %}
+Hello,{{ name }}
+{% else %}
+Hello,Strange
+{% endif %}
+</p>
+
+<ul>
+{% for comment in comments %}
+<li>{{ comment }}</li>
+{% endfor %}
+</ul>
+
+<span>span test</span>
