@@ -1,7 +1,20 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block page_content %}
+    <div class="container">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
     <p>开心Coder 博客持续集成中，基于Python + Flask </p>
     <p>Blog 开源中 https://github.com/leimin78/MyBlog</p>
     <p>现在的时间是 {{ moment(current_time).format('LLL') }}.</p>
     <p>你看到的是 {{ moment(current_time).fromNow(refresh=True) }}</p>
+    <p>你的IP地址:{{ IP }}归属地:{{ attribution }}</p>
+    <div class="page-header">
+        <h1>你好，{% if name %} {{ name }} {% else %} 陌生人！{% endif %}</h1>
+    </div>
+    {{ wtf.quick_form(form) }}
 {% endblock %}
