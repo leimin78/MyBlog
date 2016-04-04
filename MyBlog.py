@@ -7,21 +7,51 @@ from datetime import datetime
 from flask.ext.wtf import Form
 from wtforms import SubmitField,StringField
 from wtforms.validators import required
+from flask.ext.sqlalchemy import SQLAlchemy
 import RealIP
+import dbconfig
+
 
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+#初始化Flask 实例，添加秘钥，数据库参数配置
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
+app.config['SQLALCHEMY_DATABASE_URI'] = dbconfig.SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = dbconfig.SQLALCHEMY_COMMIT_ON_TEARDOWN
 
+#实例化数据库对象
+db = SQLAlchemy(app)
+
+#实例化bootstrap模板对象
 bootstrap = Bootstrap(app)
+
+#实例化moment对象
 moment = Moment(app)
 
+#定义表单类
 class NameForm(Form):
 	name = StringField('请告诉我你的名字？',validators=[required()])
 	Submit = SubmitField('我会记住你的')
+
+#定义ROLE,USER模型
+class ROLE(db.Model):
+	__tablename = 'roles'
+	id = db.Column(db.Integer,primary_key=True)
+	name = db.Colum(db.String(64),uique=True)
+
+	def __repr__(self):
+		return '<Role: %r>' % self.name
+
+class USER(db.Model):
+	__tablename__ = 'users'
+	id = db.Column(db.Integer,primary_key=True)
+	username = db.Column(db.String(64),unique=True,index=True)
+
+	def __repr__(self):
+		return '<USER %r>' % self.username
 
 #装饰器，根目录,传入方法GET,POST供表单使用
 @app.route('/',methods=['GET','POST'])
