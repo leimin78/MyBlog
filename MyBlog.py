@@ -37,21 +37,21 @@ class NameForm(Form):
 	Submit = SubmitField('我会记住你的')
 
 #定义ROLE,USER模型
-class ROLE(db.Model):
-	__tablename = 'roles'
-	id = db.Column(db.Integer,primary_key=True)
-	name = db.Colum(db.String(64),uique=True)
-
+class Role(db.Model):
+	__tablename__ = 'roles'
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(64), unique=True)
+	users = db.relationship('User', backref='role')
 	def __repr__(self):
-		return '<Role: %r>' % self.name
+		return '<Role %r>' % self.name
 
-class USER(db.Model):
+class User(db.Model):
 	__tablename__ = 'users'
-	id = db.Column(db.Integer,primary_key=True)
-	username = db.Column(db.String(64),unique=True,index=True)
-
+	id = db.Column(db.Integer, primary_key=True)
+	username = db.Column(db.String(64), unique=True, index=True)
+	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 	def __repr__(self):
-		return '<USER %r>' % self.username
+		return '<User %r>' % self.username
 
 #装饰器，根目录,传入方法GET,POST供表单使用
 @app.route('/',methods=['GET','POST'])
@@ -76,7 +76,23 @@ def user(name):
 @app.route('/static/')
 def sendstatic():
 	return render_template('base.html')
-	
+
+@app.route('/test/')
+def test():
+	form = NameForm()
+	if form.validate_on_submit():
+		user = User.query.filter_by(username=form.name.data).first()
+		if user is None:
+			user = User(username = form.name.data)
+			db.session.add(user)
+			session['known'] = False
+		else:
+			session['known'] = True
+		session['name'] = form.name.data
+		form.name.data = ''
+		return redirect(url_for('test'))
+	return render_template('test.html',form = form, name = session.get('name'),known = session.get('known', False))
+
 #装饰器，404 及500
 @app.errorhandler(404)
 def page_notfound(e):
@@ -89,4 +105,5 @@ def Server_Error(e):
 
 #主函数
 if __name__ == '__main__':
+	db.create_all()
 	app.run(debug=True)

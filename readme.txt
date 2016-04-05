@@ -20,3 +20,12 @@ python 虚拟环境 venv
 #2016年4月4日，学习使用flask-sqlalchemy 组件操作数据库
 
 同时学习sqlite3 轻量级数据库的安装使用。
+
+
+#2016年4月5日，使用sqlalchemy 操作数据库，sqlalchmy 将表映射成对象
+
+python操作对象即可操作表。
+
+更新点，新增 /static/及test.html
+
+小纪要 对于windows平台 数据库 url 地址 需使用 '/' 而不能使用windows的‘\’
