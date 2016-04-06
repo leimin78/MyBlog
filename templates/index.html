@@ -13,6 +13,7 @@
     <p>现在的时间是 {{ moment(current_time).format('LLL') }}.</p>
     <p>你看到的是 {{ moment(current_time).fromNow(refresh=True) }}</p>
     <p>你的IP地址:{{ IP }}归属地:{{ attribution }}</p>
+    <p>新增功能，你点击按钮时 博主将会有邮件自动通知哦^_^</p>
     <div class="page-header">
         <h1>你好，{% if name %} {{ name }} {% else %} 陌生人！{% endif %}</h1>
     </div>
