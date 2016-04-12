@@ -26,6 +26,7 @@ python 虚拟环境 venv
 
 python操作对象即可操作表。
 
+#4月12日 将邮件发送改为异步发送
 更新点，新增 /static/及test.html
 
 小纪要 对于windows平台 数据库 url 地址 需使用 '/' 而不能使用windows的‘\’
